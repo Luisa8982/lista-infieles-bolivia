@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Pública Bolivia</title>
     <style>
-        /* ESTILO GENERAL OSCURO */
+        /* ESTILO GENERAL */
         body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; margin: 0; }
-        .container { max-width: 1300px; margin: 0 auto; }
+        .container { max-width: 1400px; margin: 0 auto; }
         
         h1 { color: #ff4444; text-align: center; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 2px; }
         p.subtitle { text-align: center; color: #888; margin-bottom: 25px; font-size: 14px; }
@@ -20,36 +20,36 @@
         }
         .search-box:focus { border-color: #ff4444; background: #333; }
 
-        /* TABLA (DISEÑO TIPO EXCEL) */
+        /* TABLA */
         .table-responsive { overflow-x: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        table { width: 100%; border-collapse: collapse; background: #1e1e1e; min-width: 900px; }
+        table { width: 100%; border-collapse: collapse; background: #1e1e1e; min-width: 1000px; }
         
         thead { background: #b71c1c; color: white; }
-        th { padding: 15px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        th { padding: 15px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
         td { padding: 12px 15px; border-bottom: 1px solid #333; font-size: 14px; vertical-align: top; color: #ddd; }
         
         /* Filas intercaladas */
         tr:nth-child(even) { background-color: #252525; }
         tr:hover { background-color: #333; transition: 0.2s; }
 
-        /* Estilo de columnas */
-        .col-nombre { font-weight: bold; color: #fff; width: 22%; font-size: 15px; }
-        .col-datos { width: 18%; color: #aaa; font-size: 13px; line-height: 1.6; }
-        .col-historia { width: 50%; line-height: 1.5; color: #ccc; }
+        /* COLUMNAS FIJAS */
+        .col-nombre { font-weight: bold; color: #fff; width: 25%; font-size: 15px; }
+        .col-datos { width: 15%; color: #aaa; font-size: 13px; line-height: 1.6; }
+        .col-historia { width: 50%; line-height: 1.5; color: #ccc; white-space: pre-wrap; } /* Respeta los parrafos */
         .col-pruebas { width: 10%; text-align: center; }
 
-        /* Etiquetas pequeñas */
+        /* TAGS */
         .tag { display: inline-block; padding: 2px 6px; border-radius: 3px; background: #333; color: #fff; font-size: 11px; margin-right: 4px; }
-        .tag-depto { background: #0d47a1; } /* Azul para depto */
+        .tag-depto { background: #0d47a1; } 
 
-        /* Botón Link */
+        /* BOTON */
         .btn-link { 
             display: inline-block; padding: 6px 12px; background: #222; color: #4fa3ff; 
             text-decoration: none; border: 1px solid #4fa3ff; border-radius: 4px; font-size: 12px; font-weight: bold;
         }
         .btn-link:hover { background: #4fa3ff; color: #000; }
 
-        /* Paginación */
+        /* PAGINACION */
         .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; align-items: center; }
         .page-btn { 
             background: #ff4444; color: white; border: none; padding: 10px 20px; 
@@ -63,26 +63,25 @@
 
 <div class="container">
     <h1>Base de Datos - Bolivia</h1>
-    <p class="subtitle">Consulta Pública v2.0</p>
+    <p class="subtitle">Consulta Pública v3.0 (Ordenado A-Z)</p>
 
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por Nombre, Departamento o Profesión...">
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por Nombre...">
     </div>
 
-    <div id="loading" style="text-align: center; margin: 40px; color: #ff4444;">Cargando lista actualizada...</div>
+    <div id="loading" style="text-align: center; margin: 40px; color: #ff4444;">Cargando y ordenando lista...</div>
 
     <div class="table-responsive">
         <table id="dataTable">
             <thead>
                 <tr>
                     <th>Nombre Completo</th>
-                    <th>Datos Personales</th>
-                    <th>Historia / Descripción</th>
+                    <th>Datos</th>
+                    <th>Historia</th>
                     <th style="text-align: center;">Pruebas</th>
                 </tr>
             </thead>
-            <tbody id="tableBody">
-                </tbody>
+            <tbody id="tableBody"></tbody>
         </table>
     </div>
 
@@ -91,27 +90,28 @@
         <span id="pageInfo">Página 1</span>
         <button id="nextBtn" class="page-btn">Siguiente ➡</button>
     </div>
-    
-    <div style="text-align:center; margin-top:30px; font-size:12px; color:#555;">
-        Versión Tabla 2.0 - Información pública
-    </div>
 </div>
 
 <script>
-    // TU ENLACE CSV OFICIAL
+    // PEGA TU ENLACE AQUI
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuyZr5BY-sQrkjkd55DObWEQ4Jq-IN5orJciSlCHGKKvkPSMwMWhUuBAZn7fWpKUQKlMS4HybiFfz2/pub?gid=0&single=true&output=csv';
 
     let allData = [];
     let filteredData = [];
     let currentPage = 1;
-    const itemsPerPage = 50; // 50 filas por página
+    const itemsPerPage = 50; 
 
     async function loadData() {
         try {
-            // Añadimos un numero aleatorio al final (?v=...) para obligar a cargar datos nuevos siempre
             const response = await fetch(sheetUrl + '&v=' + Date.now());
-            const data = await response.text();
-            allData = parseCSV(data);
+            const text = await response.text();
+            
+            // 1. Usamos el Parser Avanzado (corrige filas rotas)
+            allData = parseCSVAdvanced(text);
+            
+            // 2. FORZAMOS EL ORDEN ALFABÉTICO (A-Z)
+            allData.sort((a, b) => a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
+
             filteredData = allData;
             
             document.getElementById('loading').style.display = 'none';
@@ -119,28 +119,64 @@
             renderTable();
         } catch (error) {
             console.error(error);
-            document.getElementById('loading').innerHTML = 'Error al cargar. Verifica el enlace CSV.';
+            document.getElementById('loading').innerHTML = 'Error al cargar.';
         }
     }
 
-    function parseCSV(text) {
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-        // Saltamos encabezados (filas 0 a 5) y empezamos en la 6 (fila 7 del excel)
-        return lines.slice(6).map(line => {
-            // Separa por comas respetando comillas
-            const v = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            const clean = v.map(val => val ? val.replace(/^"|"$/g, '').trim() : '');
-            
+    // NUEVO PARSER: Maneja "Enters" dentro de las celdas sin romper la tabla
+    function parseCSVAdvanced(text) {
+        const rows = [];
+        let currentRow = [];
+        let currentCell = '';
+        let insideQuote = false;
+
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const nextChar = text[i + 1];
+
+            if (char === '"') {
+                if (insideQuote && nextChar === '"') { // Comilla doble escapada
+                    currentCell += '"';
+                    i++;
+                } else {
+                    insideQuote = !insideQuote;
+                }
+            } else if (char === ',' && !insideQuote) {
+                currentRow.push(currentCell.trim());
+                currentCell = '';
+            } else if ((char === '\r' || char === '\n') && !insideQuote) {
+                if (currentCell || currentRow.length > 0) {
+                    currentRow.push(currentCell.trim());
+                    rows.push(currentRow);
+                }
+                currentRow = [];
+                currentCell = '';
+                if (char === '\r' && nextChar === '\n') i++;
+            } else {
+                currentCell += char;
+            }
+        }
+        if (currentCell || currentRow.length > 0) {
+            currentRow.push(currentCell.trim());
+            rows.push(currentRow);
+        }
+
+        // Saltamos las primeras 6 filas (Encabezados) y mapeamos
+        return rows.slice(6).map(row => {
+            // Aseguramos que la fila tenga datos suficientes
+            if(row.length < 2) return null;
+
             return {
-                nombre: clean[1] || 'Anónimo',   // Columna B
-                edad: clean[3] || '?',           // Columna D
-                depto: clean[4] || 'Desconocido',// Columna E
-                ciudad: clean[5] || '',          // Columna F
-                profesion: clean[6] || '',       // Columna G
-                historia: clean[8] || '',        // Columna I
-                pruebas: clean[11] || ''         // Columna L
+                nombre: row[1] || 'Anónimo',   // Col B
+                genero: row[2] || '',
+                edad: row[3] || '?',           // Col D
+                depto: row[4] || '',           // Col E
+                ciudad: row[5] || '',          // Col F
+                profesion: row[6] || '',       // Col G
+                historia: row[8] || '',        // Col I
+                pruebas: row[11] || ''         // Col L
             };
-        }).filter(item => item.nombre && !item.nombre.includes('Nombre completo'));
+        }).filter(item => item && item.nombre && !item.nombre.includes('Nombre completo'));
     }
 
     function renderTable() {
@@ -186,14 +222,13 @@
         filteredData = allData.filter(item => 
             item.nombre.toLowerCase().includes(term) || 
             item.depto.toLowerCase().includes(term) || 
-            item.ciudad.toLowerCase().includes(term) ||
-            item.profesion.toLowerCase().includes(term)
+            item.ciudad.toLowerCase().includes(term)
         );
         currentPage = 1;
         renderTable();
     });
 
-    // Controles Paginación
+    // Botones
     document.getElementById('prevBtn').addEventListener('click', () => {
         if (currentPage > 1) { currentPage--; renderTable(); }
     });
