@@ -7,7 +7,7 @@
     <style>
         /* --- ESTILOS GENERALES --- */
         body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; margin: 0; }
-        .container { max-width: 1600px; margin: 0 auto; } /* Hice el contenedor más ancho para que quepan las columnas */
+        .container { max-width: 98%; margin: 0 auto; } /* Ocupa casi toda la pantalla */
         
         h1 { color: #ff4444; text-align: center; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 2px; }
         p.subtitle { text-align: center; color: #888; margin-bottom: 25px; font-size: 14px; }
@@ -20,35 +20,39 @@
         }
         .search-box:focus { border-color: #ff4444; background: #333; }
 
-        /* --- TABLA --- */
+        /* --- TABLA (SCROLL HORIZONTAL) --- */
         .table-responsive { overflow-x: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        table { width: 100%; border-collapse: collapse; background: #1e1e1e; min-width: 1200px; }
+        table { width: 100%; border-collapse: collapse; background: #1e1e1e; min-width: 1800px; } /* Ancho forzado para que quepan todas las columnas */
         
         thead { background: #b71c1c; color: white; }
-        th { padding: 15px 10px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
-        td { padding: 12px 10px; border-bottom: 1px solid #333; font-size: 13px; vertical-align: top; color: #ddd; }
+        th { padding: 12px 8px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; border-right: 1px solid #a31515; white-space: nowrap; }
+        td { padding: 10px 8px; border-bottom: 1px solid #333; border-right: 1px solid #333; font-size: 13px; vertical-align: top; color: #ddd; }
         
         /* Filas Zebra */
         tr:nth-child(even) { background-color: #252525; }
         tr:hover { background-color: #333; transition: 0.2s; }
 
-        /* --- ANCHOS DE COLUMNAS --- */
-        .col-nro { width: 50px; text-align: center; font-weight: bold; color: #ff4444; }
-        .col-nombre { font-weight: bold; color: #fff; width: 200px; font-size: 14px; }
-        .col-datos { width: 180px; color: #aaa; font-size: 12px; line-height: 1.6; }
-        .col-historia { min-width: 300px; line-height: 1.5; color: #ccc; white-space: pre-wrap; } 
-        .col-extra { width: 150px; font-size: 12px; }
+        /* --- ANCHOS DE COLUMNAS (Ajustados a tu Sheet) --- */
+        .col-nro { width: 40px; text-align: center; font-weight: bold; color: #ff4444; }
+        .col-nombre { width: 200px; font-weight: bold; color: #fff; }
+        .col-genero { width: 80px; }
+        .col-edad { width: 50px; text-align: center; }
+        .col-depto { width: 100px; }
+        .col-ciudad { width: 100px; }
+        .col-profesion { width: 150px; font-style: italic; color: #aaa; }
+        .col-donde { width: 150px; color: #4fa3ff; }
+        .col-historia { min-width: 350px; line-height: 1.5; color: #ccc; white-space: pre-wrap; background: #181818; } /* Fondo un poco mas oscuro para resaltar */
+        .col-its { width: 100px; font-weight: bold; }
+        .col-redes { width: 150px; word-break: break-all; font-size: 11px; color: #aaa; }
         .col-pruebas { width: 80px; text-align: center; }
 
-        /* --- ETIQUETAS (TAGS) --- */
-        .tag { display: inline-block; padding: 2px 6px; border-radius: 3px; background: #333; color: #fff; font-size: 11px; margin-right: 4px; margin-bottom: 2px; }
-        .tag-depto { background: #0d47a1; } 
-        .tag-its { background: #d32f2f; color: white; font-weight: bold; }
-        .tag-ok { background: #2e7d32; }
+        /* --- TAGS ITS --- */
+        .tag-danger { color: #ff4444; }
+        .tag-safe { color: #4caf50; }
 
         /* --- BOTÓN PRUEBAS --- */
         .btn-link { 
-            display: inline-block; padding: 5px 10px; background: #222; color: #4fa3ff; 
+            display: inline-block; padding: 4px 8px; background: #222; color: #4fa3ff; 
             text-decoration: none; border: 1px solid #4fa3ff; border-radius: 4px; font-size: 11px; font-weight: bold;
         }
         .btn-link:hover { background: #4fa3ff; color: #000; }
@@ -57,13 +61,11 @@
         .pagination { display: flex; justify-content: center; gap: 5px; margin-top: 25px; align-items: center; flex-wrap: wrap; }
         .page-btn { 
             background: #333; color: white; border: 1px solid #444; padding: 8px 12px; 
-            border-radius: 4px; cursor: pointer; font-size: 14px; min-width: 40px;
+            border-radius: 4px; cursor: pointer; font-size: 14px;
         }
-        .page-btn:hover { background: #555; border-color: #666; }
+        .page-btn:hover { background: #555; }
         .page-btn.active { background: #ff4444; border-color: #ff4444; font-weight: bold; }
-        .page-btn:disabled { background: #222; color: #555; border-color: #333; cursor: not-allowed; }
-        
-        .nav-btn { font-weight: bold; background: #b71c1c; border: none; } /* Botones Inicio/Fin rojos */
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     </style>
 </head>
@@ -71,7 +73,7 @@
 
 <div class="container">
     <h1>Base de Datos - Bolivia</h1>
-    <p class="subtitle">Consulta Pública v4.0</p>
+    <p class="subtitle">Consulta Pública v5.0 (Columnas Separadas)</p>
 
     <div class="search-container">
         <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por Nombre, Apodo o Ciudad...">
@@ -83,12 +85,18 @@
         <table id="dataTable">
             <thead>
                 <tr>
-                    <th style="text-align:center;">#</th>
-                    <th>Nombre Completo</th>
-                    <th>Perfil</th>
-                    <th>Historia / Descripción</th>
-                    <th>Salud / Redes</th>
-                    <th style="text-align: center;">Pruebas</th>
+                    <th class="col-nro">#</th>
+                    <th class="col-nombre">Nombre Completo</th>
+                    <th class="col-genero">Género</th>
+                    <th class="col-edad">Edad</th>
+                    <th class="col-depto">Depto</th>
+                    <th class="col-ciudad">Ciudad</th>
+                    <th class="col-profesion">Profesión</th>
+                    <th class="col-donde">Donde lo conociste</th>
+                    <th class="col-historia">Descripción de la Infidelidad</th>
+                    <th class="col-its">ITS/ETS</th>
+                    <th class="col-redes">Redes Sociales</th>
+                    <th class="col-pruebas">Pruebas</th>
                 </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -100,27 +108,23 @@
 
 <script>
     // ==========================================
-    // ¡PEGA TU ENLACE CSV AQUÍ ABAJO!
+    // ¡PEGA TU ENLACE CSV AQUÍ!
     // ==========================================
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuyZr5BY-sQrkjkd55DObWEQ4Jq-IN5orJciSlCHGKKvkPSMwMWhUuBAZn7fWpKUQKlMS4HybiFfz2/pub?gid=0&single=true&output=csv';
 
     let allData = [];
     let filteredData = [];
     let currentPage = 1;
-    const itemsPerPage = 50; // Cantidad de infieles por página
+    const itemsPerPage = 100; // 100 POR PÁGINA
 
     async function loadData() {
         try {
-            // Añadimos timestamp para evitar caché viejo
             const response = await fetch(sheetUrl + '&v=' + Date.now());
             const text = await response.text();
             
-            allData = parseCSVAdvanced(text);
+            allData = parseCSVRegex(text);
             
-            // Si quieres ordenar por número (Columna A), descomenta la siguiente línea:
-            // allData.sort((a, b) => parseInt(a.nro) - parseInt(b.nro));
-
-            // Si prefieres Orden Alfabético por Nombre, deja esta activa:
+            // Ordenar alfabéticamente por Nombre (Col B)
             allData.sort((a, b) => a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
 
             filteredData = allData;
@@ -135,49 +139,30 @@
         }
     }
 
-    // Parser que lee TODAS tus columnas nuevas
-    function parseCSVAdvanced(text) {
-        const rows = [];
-        let currentRow = [];
-        let currentCell = '';
-        let insideQuote = false;
-
-        for (let i = 0; i < text.length; i++) {
-            const char = text[i];
-            const nextChar = text[i + 1];
-
-            if (char === '"') {
-                if (insideQuote && nextChar === '"') { currentCell += '"'; i++; } 
-                else { insideQuote = !insideQuote; }
-            } else if (char === ',' && !insideQuote) {
-                currentRow.push(currentCell.trim());
-                currentCell = '';
-            } else if ((char === '\r' || char === '\n') && !insideQuote) {
-                if (currentCell || currentRow.length > 0) { currentRow.push(currentCell.trim()); rows.push(currentRow); }
-                currentRow = []; currentCell = '';
-                if (char === '\r' && nextChar === '\n') i++;
-            } else { currentCell += char; }
-        }
-        if (currentCell || currentRow.length > 0) { currentRow.push(currentCell.trim()); rows.push(currentRow); }
-
-        // Mapeo EXACTO de tus columnas (Basado en Sheet v4)
-        return rows.slice(6).map(row => {
-            if(row.length < 2) return null;
+    // Parser REGEX (Más preciso para textos largos con comas)
+    function parseCSVRegex(text) {
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+        // Saltamos las 6 primeras filas de encabezados
+        return lines.slice(6).map(line => {
+            // Separa por comas pero ignora las comas dentro de comillas
+            const v = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            const clean = v.map(val => val ? val.replace(/^"|"$/g, '').trim() : '');
+            
             return {
-                nro: row[0] || '-',            // Col A
-                nombre: row[1] || 'Anónimo',   // Col B
-                genero: row[2] || '',          // Col C
-                edad: row[3] || '?',           // Col D
-                depto: row[4] || '',           // Col E
-                ciudad: row[5] || '',          // Col F
-                profesion: row[6] || '',       // Col G
-                donde: row[7] || '',           // Col H (Nuevo)
-                historia: row[8] || '',        // Col I
-                its: row[9] || '',             // Col J (Nuevo)
-                redes: row[10] || '',          // Col K (Nuevo)
-                pruebas: row[11] || ''         // Col L
+                nro: clean[0] || '-',            // Col A
+                nombre: clean[1] || 'Anónimo',   // Col B
+                genero: clean[2] || '',          // Col C
+                edad: clean[3] || '',            // Col D
+                depto: clean[4] || '',           // Col E
+                ciudad: clean[5] || '',          // Col F
+                profesion: clean[6] || '',       // Col G
+                donde: clean[7] || '',           // Col H
+                historia: clean[8] || '',        // Col I
+                its: clean[9] || '',             // Col J
+                redes: clean[10] || '',          // Col K
+                pruebas: clean[11] || ''         // Col L
             };
-        }).filter(item => item && item.nombre && !item.nombre.includes('Nombre completo'));
+        }).filter(item => item.nombre && !item.nombre.includes('Nombre completo'));
     }
 
     function renderTable() {
@@ -189,98 +174,70 @@
         const pageItems = filteredData.slice(start, end);
 
         if(pageItems.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 30px;">No se encontraron resultados</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; padding: 30px;">No se encontraron resultados</td></tr>';
             return;
         }
 
         pageItems.forEach(item => {
-            // Lógica para color de ITS (Rojo si dice Sí)
-            let itsBadge = '';
-            if(item.its) {
-                const text = item.its.toLowerCase();
-                if(text.includes('si') || text.includes('sí')) itsBadge = `<div class="tag tag-its">⚠️ ITS: ${item.its}</div>`;
-                else if(text.includes('no')) itsBadge = `<div class="tag tag-ok">Salud: ${item.its}</div>`;
-                else itsBadge = `<div class="tag">Salud: ${item.its}</div>`;
+            // Estilo para ITS (Rojo si hay algo sospechoso)
+            let itsClass = '';
+            if(item.its && (item.its.toLowerCase().includes('si') || item.its.toLowerCase().includes('sí'))) {
+                itsClass = 'tag-danger';
+            } else if (item.its) {
+                itsClass = 'tag-safe';
             }
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td class="col-nro">${item.nro}</td>
                 <td class="col-nombre">${item.nombre}</td>
-                <td class="col-datos">
-                    ${item.depto ? `<span class="tag tag-depto">${item.depto}</span>` : ''}
-                    <br>📍 ${item.ciudad}
-                    <br>🎂 ${item.edad} años
-                    <br>💼 ${item.profesion}
-                    <br>👀 <i>Conocido en: ${item.donde}</i>
-                </td>
+                <td class="col-genero">${item.genero}</td>
+                <td class="col-edad">${item.edad}</td>
+                <td class="col-depto">${item.depto}</td>
+                <td class="col-ciudad">${item.ciudad}</td>
+                <td class="col-profesion">${item.profesion}</td>
+                <td class="col-donde">${item.donde}</td>
                 <td class="col-historia">${item.historia}</td>
-                <td class="col-extra">
-                    ${itsBadge}
-                    ${item.redes ? `<div style="margin-top:5px; font-size:11px; color:#4fa3ff;">🔗 ${item.redes}</div>` : ''}
-                </td>
+                <td class="col-its ${itsClass}">${item.its}</td>
+                <td class="col-redes">${item.redes}</td>
                 <td class="col-pruebas">
-                    ${item.pruebas ? `<a href="${item.pruebas}" target="_blank" class="btn-link">VER</a>` : '<span style="color:#444;">-</span>'}
+                    ${item.pruebas ? `<a href="${item.pruebas}" target="_blank" class="btn-link">VER</a>` : ''}
                 </td>
             `;
             tbody.appendChild(tr);
         });
         
-        // Volver arriba
         window.scrollTo(0, 0);
     }
 
     function renderPagination() {
         const container = document.getElementById('paginationContainer');
         container.innerHTML = '';
-        
         const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+        
         if (totalPages <= 1) return;
 
-        // Botón Inicio
-        const startBtn = createBtn('« Inicio', () => goToPage(1), currentPage === 1);
-        startBtn.classList.add('nav-btn');
-        container.appendChild(startBtn);
+        // Botones
+        const prevBtn = document.createElement('button');
+        prevBtn.innerText = '« Anterior';
+        prevBtn.className = 'page-btn';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => { currentPage--; renderTable(); renderPagination(); };
+        container.appendChild(prevBtn);
 
-        // Botón Anterior
-        container.appendChild(createBtn('‹ Ant', () => goToPage(currentPage - 1), currentPage === 1));
+        // Indicador simple
+        const info = document.createElement('span');
+        info.style.color = '#888';
+        info.style.margin = '0 10px';
+        info.innerText = `Página ${currentPage} de ${totalPages}`;
+        container.appendChild(info);
 
-        // Números (Ventana de 5 páginas alrededor de la actual para no llenar la pantalla)
-        let startPage = Math.max(1, currentPage - 2);
-        let endPage = Math.min(totalPages, startPage + 4);
-        
-        if (endPage - startPage < 4) {
-            startPage = Math.max(1, endPage - 4);
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            const btn = createBtn(i, () => goToPage(i), false);
-            if (i === currentPage) btn.classList.add('active');
-            container.appendChild(btn);
-        }
-
-        // Botón Siguiente
-        container.appendChild(createBtn('Sig ›', () => goToPage(currentPage + 1), currentPage === totalPages));
-
-        // Botón Final
-        const endBtn = createBtn('Final »', () => goToPage(totalPages), currentPage === totalPages);
-        endBtn.classList.add('nav-btn');
-        container.appendChild(endBtn);
-    }
-
-    function createBtn(text, onClick, disabled) {
-        const btn = document.createElement('button');
-        btn.innerText = text;
-        btn.className = 'page-btn';
-        btn.disabled = disabled;
-        btn.addEventListener('click', onClick);
-        return btn;
-    }
-
-    function goToPage(page) {
-        currentPage = page;
-        renderTable();
-        renderPagination();
+        const nextBtn = document.createElement('button');
+        nextBtn.innerText = 'Siguiente »';
+        nextBtn.className = 'page-btn';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => { currentPage++; renderTable(); renderPagination(); };
+        container.appendChild(nextBtn);
     }
 
     // Buscador
@@ -289,6 +246,7 @@
         filteredData = allData.filter(item => 
             item.nombre.toLowerCase().includes(term) || 
             item.depto.toLowerCase().includes(term) || 
+            item.ciudad.toLowerCase().includes(term) ||
             item.nro.toString().includes(term)
         );
         currentPage = 1;
