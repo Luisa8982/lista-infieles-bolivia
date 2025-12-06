@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Pública Bolivia</title>
     <style>
-        /* ESTILO GENERAL */
+        /* --- ESTILOS GENERALES --- */
         body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; margin: 0; }
-        .container { max-width: 1400px; margin: 0 auto; }
+        .container { max-width: 1600px; margin: 0 auto; } /* Hice el contenedor más ancho para que quepan las columnas */
         
         h1 { color: #ff4444; text-align: center; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 2px; }
         p.subtitle { text-align: center; color: #888; margin-bottom: 25px; font-size: 14px; }
 
-        /* BUSCADOR */
+        /* --- BUSCADOR --- */
         .search-container { text-align: center; margin-bottom: 20px; }
         .search-box { 
             width: 100%; max-width: 500px; padding: 12px 20px; font-size: 16px; 
@@ -20,64 +20,74 @@
         }
         .search-box:focus { border-color: #ff4444; background: #333; }
 
-        /* TABLA */
+        /* --- TABLA --- */
         .table-responsive { overflow-x: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        table { width: 100%; border-collapse: collapse; background: #1e1e1e; min-width: 1000px; }
+        table { width: 100%; border-collapse: collapse; background: #1e1e1e; min-width: 1200px; }
         
         thead { background: #b71c1c; color: white; }
-        th { padding: 15px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
-        td { padding: 12px 15px; border-bottom: 1px solid #333; font-size: 14px; vertical-align: top; color: #ddd; }
+        th { padding: 15px 10px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+        td { padding: 12px 10px; border-bottom: 1px solid #333; font-size: 13px; vertical-align: top; color: #ddd; }
         
-        /* Filas intercaladas */
+        /* Filas Zebra */
         tr:nth-child(even) { background-color: #252525; }
         tr:hover { background-color: #333; transition: 0.2s; }
 
-        /* COLUMNAS FIJAS */
-        .col-nombre { font-weight: bold; color: #fff; width: 25%; font-size: 15px; }
-        .col-datos { width: 15%; color: #aaa; font-size: 13px; line-height: 1.6; }
-        .col-historia { width: 50%; line-height: 1.5; color: #ccc; white-space: pre-wrap; } /* Respeta los parrafos */
-        .col-pruebas { width: 10%; text-align: center; }
+        /* --- ANCHOS DE COLUMNAS --- */
+        .col-nro { width: 50px; text-align: center; font-weight: bold; color: #ff4444; }
+        .col-nombre { font-weight: bold; color: #fff; width: 200px; font-size: 14px; }
+        .col-datos { width: 180px; color: #aaa; font-size: 12px; line-height: 1.6; }
+        .col-historia { min-width: 300px; line-height: 1.5; color: #ccc; white-space: pre-wrap; } 
+        .col-extra { width: 150px; font-size: 12px; }
+        .col-pruebas { width: 80px; text-align: center; }
 
-        /* TAGS */
-        .tag { display: inline-block; padding: 2px 6px; border-radius: 3px; background: #333; color: #fff; font-size: 11px; margin-right: 4px; }
+        /* --- ETIQUETAS (TAGS) --- */
+        .tag { display: inline-block; padding: 2px 6px; border-radius: 3px; background: #333; color: #fff; font-size: 11px; margin-right: 4px; margin-bottom: 2px; }
         .tag-depto { background: #0d47a1; } 
+        .tag-its { background: #d32f2f; color: white; font-weight: bold; }
+        .tag-ok { background: #2e7d32; }
 
-        /* BOTON */
+        /* --- BOTÓN PRUEBAS --- */
         .btn-link { 
-            display: inline-block; padding: 6px 12px; background: #222; color: #4fa3ff; 
-            text-decoration: none; border: 1px solid #4fa3ff; border-radius: 4px; font-size: 12px; font-weight: bold;
+            display: inline-block; padding: 5px 10px; background: #222; color: #4fa3ff; 
+            text-decoration: none; border: 1px solid #4fa3ff; border-radius: 4px; font-size: 11px; font-weight: bold;
         }
         .btn-link:hover { background: #4fa3ff; color: #000; }
 
-        /* PAGINACION */
-        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; align-items: center; }
+        /* --- PAGINACIÓN --- */
+        .pagination { display: flex; justify-content: center; gap: 5px; margin-top: 25px; align-items: center; flex-wrap: wrap; }
         .page-btn { 
-            background: #ff4444; color: white; border: none; padding: 10px 20px; 
-            border-radius: 5px; cursor: pointer; font-weight: bold;
+            background: #333; color: white; border: 1px solid #444; padding: 8px 12px; 
+            border-radius: 4px; cursor: pointer; font-size: 14px; min-width: 40px;
         }
-        .page-btn:disabled { background: #444; cursor: not-allowed; opacity: 0.7; }
-        #pageInfo { color: #888; font-size: 14px; }
+        .page-btn:hover { background: #555; border-color: #666; }
+        .page-btn.active { background: #ff4444; border-color: #ff4444; font-weight: bold; }
+        .page-btn:disabled { background: #222; color: #555; border-color: #333; cursor: not-allowed; }
+        
+        .nav-btn { font-weight: bold; background: #b71c1c; border: none; } /* Botones Inicio/Fin rojos */
+
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Base de Datos - Bolivia</h1>
-    <p class="subtitle">Consulta Pública v3.0 (Ordenado A-Z)</p>
+    <p class="subtitle">Consulta Pública v4.0</p>
 
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por Nombre...">
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por Nombre, Apodo o Ciudad...">
     </div>
 
-    <div id="loading" style="text-align: center; margin: 40px; color: #ff4444;">Cargando y ordenando lista...</div>
+    <div id="loading" style="text-align: center; margin: 40px; color: #ff4444;">Cargando base de datos completa...</div>
 
     <div class="table-responsive">
         <table id="dataTable">
             <thead>
                 <tr>
+                    <th style="text-align:center;">#</th>
                     <th>Nombre Completo</th>
-                    <th>Datos</th>
-                    <th>Historia</th>
+                    <th>Perfil</th>
+                    <th>Historia / Descripción</th>
+                    <th>Salud / Redes</th>
                     <th style="text-align: center;">Pruebas</th>
                 </tr>
             </thead>
@@ -85,45 +95,47 @@
         </table>
     </div>
 
-    <div class="pagination" id="paginationControls" style="display:none;">
-        <button id="prevBtn" class="page-btn">⬅ Anterior</button>
-        <span id="pageInfo">Página 1</span>
-        <button id="nextBtn" class="page-btn">Siguiente ➡</button>
-    </div>
+    <div class="pagination" id="paginationContainer" style="display:none;"></div>
 </div>
 
 <script>
-    // PEGA TU ENLACE AQUI
+    // ==========================================
+    // ¡PEGA TU ENLACE CSV AQUÍ ABAJO!
+    // ==========================================
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuyZr5BY-sQrkjkd55DObWEQ4Jq-IN5orJciSlCHGKKvkPSMwMWhUuBAZn7fWpKUQKlMS4HybiFfz2/pub?gid=0&single=true&output=csv';
 
     let allData = [];
     let filteredData = [];
     let currentPage = 1;
-    const itemsPerPage = 50; 
+    const itemsPerPage = 50; // Cantidad de infieles por página
 
     async function loadData() {
         try {
+            // Añadimos timestamp para evitar caché viejo
             const response = await fetch(sheetUrl + '&v=' + Date.now());
             const text = await response.text();
             
-            // 1. Usamos el Parser Avanzado (corrige filas rotas)
             allData = parseCSVAdvanced(text);
             
-            // 2. FORZAMOS EL ORDEN ALFABÉTICO (A-Z)
+            // Si quieres ordenar por número (Columna A), descomenta la siguiente línea:
+            // allData.sort((a, b) => parseInt(a.nro) - parseInt(b.nro));
+
+            // Si prefieres Orden Alfabético por Nombre, deja esta activa:
             allData.sort((a, b) => a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
 
             filteredData = allData;
             
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('paginationControls').style.display = 'flex';
+            document.getElementById('paginationContainer').style.display = 'flex';
             renderTable();
+            renderPagination();
         } catch (error) {
             console.error(error);
-            document.getElementById('loading').innerHTML = 'Error al cargar.';
+            document.getElementById('loading').innerHTML = 'Error al cargar. Verifica el enlace CSV.';
         }
     }
 
-    // NUEVO PARSER: Maneja "Enters" dentro de las celdas sin romper la tabla
+    // Parser que lee TODAS tus columnas nuevas
     function parseCSVAdvanced(text) {
         const rows = [];
         let currentRow = [];
@@ -135,45 +147,34 @@
             const nextChar = text[i + 1];
 
             if (char === '"') {
-                if (insideQuote && nextChar === '"') { // Comilla doble escapada
-                    currentCell += '"';
-                    i++;
-                } else {
-                    insideQuote = !insideQuote;
-                }
+                if (insideQuote && nextChar === '"') { currentCell += '"'; i++; } 
+                else { insideQuote = !insideQuote; }
             } else if (char === ',' && !insideQuote) {
                 currentRow.push(currentCell.trim());
                 currentCell = '';
             } else if ((char === '\r' || char === '\n') && !insideQuote) {
-                if (currentCell || currentRow.length > 0) {
-                    currentRow.push(currentCell.trim());
-                    rows.push(currentRow);
-                }
-                currentRow = [];
-                currentCell = '';
+                if (currentCell || currentRow.length > 0) { currentRow.push(currentCell.trim()); rows.push(currentRow); }
+                currentRow = []; currentCell = '';
                 if (char === '\r' && nextChar === '\n') i++;
-            } else {
-                currentCell += char;
-            }
+            } else { currentCell += char; }
         }
-        if (currentCell || currentRow.length > 0) {
-            currentRow.push(currentCell.trim());
-            rows.push(currentRow);
-        }
+        if (currentCell || currentRow.length > 0) { currentRow.push(currentCell.trim()); rows.push(currentRow); }
 
-        // Saltamos las primeras 6 filas (Encabezados) y mapeamos
+        // Mapeo EXACTO de tus columnas (Basado en Sheet v4)
         return rows.slice(6).map(row => {
-            // Aseguramos que la fila tenga datos suficientes
             if(row.length < 2) return null;
-
             return {
+                nro: row[0] || '-',            // Col A
                 nombre: row[1] || 'Anónimo',   // Col B
-                genero: row[2] || '',
+                genero: row[2] || '',          // Col C
                 edad: row[3] || '?',           // Col D
                 depto: row[4] || '',           // Col E
                 ciudad: row[5] || '',          // Col F
                 profesion: row[6] || '',       // Col G
+                donde: row[7] || '',           // Col H (Nuevo)
                 historia: row[8] || '',        // Col I
+                its: row[9] || '',             // Col J (Nuevo)
+                redes: row[10] || '',          // Col K (Nuevo)
                 pruebas: row[11] || ''         // Col L
             };
         }).filter(item => item && item.nombre && !item.nombre.includes('Nombre completo'));
@@ -188,32 +189,98 @@
         const pageItems = filteredData.slice(start, end);
 
         if(pageItems.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 30px;">No se encontraron resultados</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 30px;">No se encontraron resultados</td></tr>';
             return;
         }
 
         pageItems.forEach(item => {
+            // Lógica para color de ITS (Rojo si dice Sí)
+            let itsBadge = '';
+            if(item.its) {
+                const text = item.its.toLowerCase();
+                if(text.includes('si') || text.includes('sí')) itsBadge = `<div class="tag tag-its">⚠️ ITS: ${item.its}</div>`;
+                else if(text.includes('no')) itsBadge = `<div class="tag tag-ok">Salud: ${item.its}</div>`;
+                else itsBadge = `<div class="tag">Salud: ${item.its}</div>`;
+            }
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
+                <td class="col-nro">${item.nro}</td>
                 <td class="col-nombre">${item.nombre}</td>
                 <td class="col-datos">
-                    <span class="tag tag-depto">${item.depto}</span>
+                    ${item.depto ? `<span class="tag tag-depto">${item.depto}</span>` : ''}
                     <br>📍 ${item.ciudad}
                     <br>🎂 ${item.edad} años
                     <br>💼 ${item.profesion}
+                    <br>👀 <i>Conocido en: ${item.donde}</i>
                 </td>
                 <td class="col-historia">${item.historia}</td>
+                <td class="col-extra">
+                    ${itsBadge}
+                    ${item.redes ? `<div style="margin-top:5px; font-size:11px; color:#4fa3ff;">🔗 ${item.redes}</div>` : ''}
+                </td>
                 <td class="col-pruebas">
                     ${item.pruebas ? `<a href="${item.pruebas}" target="_blank" class="btn-link">VER</a>` : '<span style="color:#444;">-</span>'}
                 </td>
             `;
             tbody.appendChild(tr);
         });
-
-        document.getElementById('pageInfo').innerText = `Página ${currentPage} de ${Math.ceil(filteredData.length / itemsPerPage) || 1}`;
-        document.getElementById('prevBtn').disabled = currentPage === 1;
-        document.getElementById('nextBtn').disabled = end >= filteredData.length;
+        
+        // Volver arriba
         window.scrollTo(0, 0);
+    }
+
+    function renderPagination() {
+        const container = document.getElementById('paginationContainer');
+        container.innerHTML = '';
+        
+        const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+        if (totalPages <= 1) return;
+
+        // Botón Inicio
+        const startBtn = createBtn('« Inicio', () => goToPage(1), currentPage === 1);
+        startBtn.classList.add('nav-btn');
+        container.appendChild(startBtn);
+
+        // Botón Anterior
+        container.appendChild(createBtn('‹ Ant', () => goToPage(currentPage - 1), currentPage === 1));
+
+        // Números (Ventana de 5 páginas alrededor de la actual para no llenar la pantalla)
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        
+        if (endPage - startPage < 4) {
+            startPage = Math.max(1, endPage - 4);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const btn = createBtn(i, () => goToPage(i), false);
+            if (i === currentPage) btn.classList.add('active');
+            container.appendChild(btn);
+        }
+
+        // Botón Siguiente
+        container.appendChild(createBtn('Sig ›', () => goToPage(currentPage + 1), currentPage === totalPages));
+
+        // Botón Final
+        const endBtn = createBtn('Final »', () => goToPage(totalPages), currentPage === totalPages);
+        endBtn.classList.add('nav-btn');
+        container.appendChild(endBtn);
+    }
+
+    function createBtn(text, onClick, disabled) {
+        const btn = document.createElement('button');
+        btn.innerText = text;
+        btn.className = 'page-btn';
+        btn.disabled = disabled;
+        btn.addEventListener('click', onClick);
+        return btn;
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        renderTable();
+        renderPagination();
     }
 
     // Buscador
@@ -222,18 +289,11 @@
         filteredData = allData.filter(item => 
             item.nombre.toLowerCase().includes(term) || 
             item.depto.toLowerCase().includes(term) || 
-            item.ciudad.toLowerCase().includes(term)
+            item.nro.toString().includes(term)
         );
         currentPage = 1;
         renderTable();
-    });
-
-    // Botones
-    document.getElementById('prevBtn').addEventListener('click', () => {
-        if (currentPage > 1) { currentPage--; renderTable(); }
-    });
-    document.getElementById('nextBtn').addEventListener('click', () => {
-        if ((currentPage * itemsPerPage) < filteredData.length) { currentPage++; renderTable(); }
+        renderPagination();
     });
 
     loadData();
