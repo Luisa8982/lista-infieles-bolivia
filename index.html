@@ -5,86 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Pública Bolivia</title>
     <style>
-        /* ESTILOS (Diseño oscuro y limpio) */
+        /* ESTILO GENERAL */
         body { background-color: #121212; color: #e0e0e0; font-family: sans-serif; padding: 20px; margin: 0; }
-        .container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; }
         
-        /* Encabezado */
-        h1 { color: #ff4444; text-transform: uppercase; font-size: 24px; margin-bottom: 10px; }
-        p { color: #888; font-size: 14px; }
+        h1 { color: #ff4444; text-align: center; text-transform: uppercase; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #888; margin-bottom: 25px; font-size: 14px; }
 
-        /* Buscador */
+        /* BUSCADOR */
+        .search-container { text-align: center; margin-bottom: 20px; }
         .search-box { 
-            width: 90%; max-width: 500px; padding: 12px 20px; font-size: 16px; 
-            margin: 20px 0; border-radius: 25px; border: 1px solid #444; 
-            background: #222; color: white; outline: none; transition: 0.3s;
+            width: 100%; max-width: 400px; padding: 10px 15px; font-size: 16px; 
+            border-radius: 5px; border: 1px solid #333; background: #1e1e1e; color: white; outline: none;
         }
-        .search-box:focus { border-color: #ff4444; background: #333; }
+        .search-box:focus { border-color: #ff4444; }
+
+        /* TABLA DE DATOS (Estilo Excel Oscuro) */
+        .table-wrapper { overflow-x: auto; border: 1px solid #333; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; background: #1e1e1e; }
         
-        /* Lista de Tarjetas */
-        .grid { display: flex; flex-direction: column; gap: 15px; text-align: left; }
+        thead { background: #ff4444; color: white; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; font-size: 14px; vertical-align: top; }
+        th { font-weight: bold; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
         
-        .card { 
-            background: #1e1e1e; border-left: 4px solid #444; padding: 15px; 
-            border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
-        }
-        .card h3 { color: #fff; margin: 0 0 5px 0; font-size: 18px; }
-        .card-meta { font-size: 12px; color: #aaa; margin-bottom: 8px; }
-        .badge { background: #333; padding: 2px 6px; border-radius: 3px; margin-right: 5px; }
-        .desc { font-size: 14px; color: #ccc; line-height: 1.4; }
-        
-        /* Boton Pruebas */
+        /* Filas intercaladas (Efecto Zebra) */
+        tr:nth-child(even) { background-color: #252525; }
+        tr:hover { background-color: #333; }
+
+        /* Columnas especificas */
+        .col-nombre { font-weight: bold; color: #fff; width: 20%; }
+        .col-datos { width: 15%; color: #aaa; font-size: 12px; }
+        .col-historia { width: 50%; line-height: 1.5; color: #ddd; }
+        .col-pruebas { width: 15%; text-align: center; }
+
+        /* Boton de Pruebas */
         .btn-link { 
-            display: inline-block; margin-top: 10px; font-size: 12px; 
-            color: #4fa3ff; text-decoration: none; border: 1px solid #4fa3ff; 
-            padding: 4px 10px; border-radius: 4px; 
+            display: inline-block; padding: 5px 10px; background: #222; color: #4fa3ff; 
+            text-decoration: none; border: 1px solid #4fa3ff; border-radius: 4px; font-size: 11px; 
         }
-        .btn-link:hover { background: #4fa3ff; color: #000; }
+        .btn-link:hover { background: #4fa3ff; color: #000; font-weight: bold; }
 
         /* Paginación */
-        .pagination { margin-top: 30px; display: flex; justify-content: center; gap: 20px; align-items: center; }
+        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 20px; align-items: center; }
         .page-btn { 
-            background: #ff4444; color: white; border: none; padding: 10px 20px; 
-            border-radius: 5px; cursor: pointer; font-weight: bold; 
+            background: #333; color: white; border: none; padding: 8px 16px; 
+            border-radius: 4px; cursor: pointer; 
         }
-        .page-btn:disabled { background: #555; cursor: not-allowed; }
-        #pageInfo { color: #888; font-size: 14px; }
+        .page-btn:hover { background: #555; }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* Footer */
-        .footer { margin-top: 40px; border-top: 1px solid #333; padding-top: 20px; font-size: 12px; color: #555; }
+        /* Responsive para celulares */
+        @media (max-width: 600px) {
+            th, td { padding: 10px 5px; font-size: 12px; }
+            .col-datos { display: none; } /* Oculta edad/depto en celular vertical para ahorrar espacio */
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Base de Datos - Bolivia</h1>
-    <p>Consulta pública de reportes</p>
-    
-    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar nombre, ciudad, profesión...">
-    
-    <div id="loading">Cargando datos...</div>
-    
-    <div id="grid" class="grid"></div>
+    <p class="subtitle">Consulta Pública de Reportes</p>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por nombre, apellido o ciudad...">
+    </div>
+
+    <div id="loading" style="text-align: center;">Cargando lista...</div>
+
+    <div class="table-wrapper">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Nombre Completo</th>
+                    <th style="width: 15%;">Detalles</th>
+                    <th style="width: 50%;">Historia</th>
+                    <th style="width: 10%;">Pruebas</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                </tbody>
+        </table>
+    </div>
 
     <div class="pagination" id="paginationControls" style="display:none;">
-        <button id="prevBtn" class="page-btn">Anterior</button>
-        <span id="pageInfo">Página 1</span>
-        <button id="nextBtn" class="page-btn">Siguiente</button>
-    </div>
-    
-    <div class="footer">
-        <p>Información recopilada de fuentes públicas. No alojamos archivos.</p>
+        <button id="prevBtn" class="page-btn">⬅ Anterior</button>
+        <span id="pageInfo" style="color: #888;">Página 1</span>
+        <button id="nextBtn" class="page-btn">Siguiente ➡</button>
     </div>
 </div>
 
 <script>
-    // TU ENLACE YA ESTÁ PUESTO AQUÍ:
+    // ==========================================
+    // ¡PEGA TU ENLACE CSV AQUÍ ABAJO!
+    // ==========================================
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuyZr5BY-sQrkjkd55DObWEQ4Jq-IN5orJciSlCHGKKvkPSMwMWhUuBAZn7fWpKUQKlMS4HybiFfz2/pub?gid=0&single=true&output=csv';
 
     let allData = [];
     let filteredData = [];
     let currentPage = 1;
-    const itemsPerPage = 100; // Muestra 100 por página
+    const itemsPerPage = 50; // 50 filas por página para que se lea bien
 
     async function loadData() {
         try {
@@ -96,67 +116,68 @@
             document.getElementById('loading').style.display = 'none';
             document.getElementById('paginationControls').style.display = 'flex';
             
-            renderGrid();
+            renderTable();
         } catch (error) {
             console.error(error);
-            document.getElementById('loading').innerHTML = 'Error al cargar los datos.';
+            document.getElementById('loading').innerHTML = 'Error al cargar. Verifica el enlace.';
         }
     }
 
     function parseCSV(text) {
         const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-        // Saltamos las primeras 6 filas (Encabezados)
+        // Usamos una expresión regular más potente para leer CSV correctamente
         return lines.slice(6).map(line => {
-            // Separa por comas respetando comillas
-            const v = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-            const clean = v.map(val => val.replace(/^"|"$/g, '').trim());
+            // Esta magia separa por comas pero ignora las comas que están dentro de "comillas"
+            const v = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            const clean = v.map(val => val ? val.replace(/^"|"$/g, '').trim() : '');
             
             return {
                 nombre: clean[1] || 'Anónimo',   // Columna B
-                edad: clean[3] || '',            // Columna D
+                edad: clean[3] || '?',           // Columna D
                 depto: clean[4] || '',           // Columna E
                 ciudad: clean[5] || '',          // Columna F
                 profesion: clean[6] || '',       // Columna G
-                historia: clean[8] || '',        // Columna I (Descripción)
-                pruebas: clean[11] || ''         // Columna L (Link Pruebas)
+                historia: clean[8] || '',        // Columna I
+                pruebas: clean[11] || ''         // Columna L
             };
         }).filter(item => item.nombre && !item.nombre.includes('Nombre completo'));
     }
 
-    function renderGrid() {
-        const grid = document.getElementById('grid');
-        grid.innerHTML = '';
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
         
         const start = (currentPage - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         const pageItems = filteredData.slice(start, end);
 
         if(pageItems.length === 0) {
-            grid.innerHTML = '<p style="color:#666;">No se encontraron resultados.</p>';
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 20px;">No se encontraron resultados</td></tr>';
             return;
         }
 
         pageItems.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <h3>${item.nombre}</h3>
-                <div class="card-meta">
-                    <span class="badge">${item.depto}</span>
-                    <span class="badge">${item.ciudad}</span>
-                    <span class="badge">${item.edad} años</span>
-                    <span class="badge">${item.profesion}</span>
-                </div>
-                <div class="desc">${item.historia}</div>
-                ${item.pruebas ? `<a href="${item.pruebas}" target="_blank" class="btn-link">Ver Pruebas 👁️</a>` : ''}
+            const tr = document.createElement('tr');
+            
+            // Construimos la fila
+            tr.innerHTML = `
+                <td class="col-nombre">${item.nombre}</td>
+                <td class="col-datos">
+                    <div style="color: #ff4444; font-weight:bold;">${item.depto}</div>
+                    <div>${item.edad} años</div>
+                    <div style="font-style:italic;">${item.profesion}</div>
+                </td>
+                <td class="col-historia">${item.historia}</td>
+                <td class="col-pruebas">
+                    ${item.pruebas ? `<a href="${item.pruebas}" target="_blank" class="btn-link">Ver Pruebas</a>` : '<span style="color:#555;">-</span>'}
+                </td>
             `;
-            grid.appendChild(card);
+            tbody.appendChild(tr);
         });
 
         document.getElementById('pageInfo').innerText = `Página ${currentPage} de ${Math.ceil(filteredData.length / itemsPerPage) || 1}`;
         document.getElementById('prevBtn').disabled = currentPage === 1;
         document.getElementById('nextBtn').disabled = end >= filteredData.length;
-        
         window.scrollTo(0, 0);
     }
 
@@ -165,20 +186,19 @@
         const term = e.target.value.toLowerCase();
         filteredData = allData.filter(item => 
             item.nombre.toLowerCase().includes(term) || 
-            item.ciudad.toLowerCase().includes(term) || 
-            item.profesion.toLowerCase().includes(term) ||
-            item.depto.toLowerCase().includes(term)
+            item.depto.toLowerCase().includes(term) || 
+            item.profesion.toLowerCase().includes(term)
         );
         currentPage = 1;
-        renderGrid();
+        renderTable();
     });
 
-    // Botones
+    // Botones Paginación
     document.getElementById('prevBtn').addEventListener('click', () => {
-        if (currentPage > 1) { currentPage--; renderGrid(); }
+        if (currentPage > 1) { currentPage--; renderTable(); }
     });
     document.getElementById('nextBtn').addEventListener('click', () => {
-        if ((currentPage * itemsPerPage) < filteredData.length) { currentPage++; renderGrid(); }
+        if ((currentPage * itemsPerPage) < filteredData.length) { currentPage++; renderTable(); }
     });
 
     loadData();
